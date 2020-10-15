@@ -1,0 +1,35 @@
+    <route url="/{{version}}/{{url}}" method="{{method}}">
+        <service class="{{service}}" method="{{function}}"/>
+        <resources>
+{% for resource in resources %}
+            <resource ref="{{resource}}"/>
+{% endfor %}
+        </resources>
+{% if data|length>0 %}
+        <data>
+{% for item in data %}
+            <parameter name="{{item.name}}" force="{{item.force}}">%{{item.code}}%</parameter>
+{% endfor %}
+        </data>
+{% endif %}
+    </route>
+{#
+    <route url="/V1/guest-carts/:cartId/collect-totals" method="PUT">
+        <service class="Magento\Quote\Api\GuestCartTotalManagementInterface" method="collectTotals"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+
+    <!-- Managing My Cart Total -->
+    <route url="/V1/carts/mine/totals" method="GET">
+        <service class="Magento\Quote\Api\CartTotalRepositoryInterface" method="get"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+        <data>
+            <parameter name="cartId" force="true">%cart_id%</parameter>
+        </data>
+    </route>
+#}

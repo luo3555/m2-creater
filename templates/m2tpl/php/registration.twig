@@ -1,0 +1,7 @@
+<?php
+{% if license|length>0 %}
+{{license}}
+{% endif %}
+use \Magento\Framework\Component\ComponentRegistrar;
+
+ComponentRegistrar::register(ComponentRegistrar::MODULE, '{{vendor}}_{{module}}', __DIR__);
