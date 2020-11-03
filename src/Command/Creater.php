@@ -10,6 +10,10 @@ use App\Common\CreateFile;
 use App\Entity\Registration;
 use App\Entity\Etc\Di;
 use App\Entity\Etc\Webapi;
+use App\Entity\Etc\Router;
+use App\Entity\Controller\Controller;
+use App\Entity\View\Layout;
+use App\Entity\Plugin\Plugin;
 use App\Entity\Api\ResetInterface;
 
 class Creater extends Command
@@ -53,7 +57,7 @@ class Creater extends Command
                         'plugin' => [
                             [
                                 'observed' => 'Magento\Framework\Mview\View\StateInterface', // observed what interface or class
-                                'class' => 'Cloyi\Creater\Plugin\Test',
+                                'class' => 'Plugin\Test',
                                 'name' => 'Plugin_Name',
                                 'sort' => 100, // plugin run sort order
                                 'disabled' => 'false' // plugin disabled
@@ -62,11 +66,11 @@ class Creater extends Command
                         'preference' => [
                             [
                                 'for' => 'Cloyi\Creater\Api\Data\TestInteface',
-                                'type' => 'Cloyi\Creater\Model\Data\Test'
+                                'type' => 'Data\Test'
                             ],
                             [
-                                'for' => '\Magento\Quote\Api\CartItemInterface',
-                                'type' => '\Magento\Quote\Model\CartItem'
+                                'for' => 'Magento\Quote\Api\CartItemInterface',
+                                'type' => 'CartItem'
                             ],
                             [
                                 'for' => 'interface name',
@@ -74,10 +78,45 @@ class Creater extends Command
                             ]
                         ]
                     ],
-                    'frontend' => [],
                     'adminhtml' => [],
                     'webapi_rest' => [],
                     'webapi_soap' => []
+                ],
+                'router' => [
+                    'global' => [
+                        [
+                            'id' => 'route_id',
+                            'front_name' => 'front_name',
+                            'module' => 'Cloyi_Creater'
+                        ]
+                    ],
+                    'frontend' => [
+                        [
+                            'id' => 'route_id',
+                            'front_name' => 'front_name',
+                            'module' => 'Cloyi_Creater',
+                            'action' => 'Post\Index'
+                        ],
+                        [
+                            'id' => 'route_id',
+                            'front_name' => 'front_name',
+                            'module' => 'Cloyi_Creater'
+                        ]
+                    ],
+                    'adminhtml' => [
+                        [
+                            'id' => 'route_id',
+                            'front_name' => 'front_name',
+                            'module' => 'Cloyi_Creater',
+                            'action' => 'Test\Index',
+                            'resource' => 'Magento_Backend::admin'
+                        ],
+                        [
+                            'id' => 'route_id',
+                            'front_name' => 'front_name',
+                            'module' => 'Cloyi_Creater'
+                        ]
+                    ]
                 ],
                 // webapi.xml info
                 'webapi' => [
@@ -85,7 +124,7 @@ class Creater extends Command
                         'version' => 'V1',
                         'url' => 'webapi url',
                         'method' => 'POST',
-                        'service' => 'Cloyi\Creater\Api\Data\TestInteface',
+                        'service' => 'Data\TestInteface',
                         'function' => 'getCart',
                         'resources' => [
                             'self',
@@ -104,7 +143,7 @@ class Creater extends Command
             // Api Code
             'webapi_reset' => [
                 [
-                    'interface' => 'Cloyi\Creater\Api\TestInteface',
+                    'interface' => 'TestInteface',
                     // default create get and set function
                     'property' => [
                         [
@@ -139,7 +178,7 @@ class Creater extends Command
                     ]
                 ],
                 [
-                    'interface' => 'Cloyi\Creater\Api\Data\TestInteface',
+                    'interface' => 'Data\TestInteface',
                     // default create get and set function
                     'property' => [
                         [
@@ -164,6 +203,29 @@ class Creater extends Command
                         ]
                     ]
                 ],
+            ],
+            'view' => [
+                'global' => [],
+                'frontend' => [
+                    'layout' => [
+                        [
+                            'id' => 'route_id',
+                            'action' => 'Post\Index',
+                            'content' => 'grid', // ui_component or block
+                        ]
+                    ],
+                    'ui_component' => []
+                ],
+                'adminhtml' => [
+                    'layout' => [
+                        [
+                            'id' => 'route_id',
+                            'action' => 'Post\Index',
+                            'content' => 'grid', // ui_component or block
+                        ]
+                    ],
+                    'ui_component' => []
+                ]
             ]
         ];
         // $createFile = new CreateFile($config);
@@ -174,6 +236,14 @@ class Creater extends Command
         new Webapi($config);
 
         new Di($config);
+
+        new Router($config);
+
+        new Controller($config);
+
+        new Layout($config);
+
+        new Plugin($config);
 
         $res = new ResetInterface($config);
         $res->createInterface();

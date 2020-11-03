@@ -5,6 +5,14 @@ use App\Common\CreateFile;
 
 abstract class EntityBase
 {
+    const AREA_GLOBAL = 'global';
+
+    const AREA_FRONTEND = 'frontend';
+
+    const AREA_ADMINHTML = 'adminhtml';
+
+    protected $xml = [];
+
     protected $creater;
 
     protected $params;
@@ -24,5 +32,20 @@ abstract class EntityBase
     public function fetch($tpl, $params)
     {
         return $this->creater->renderFile($tpl, $params);
+    }
+
+    public function getModuleName()
+    {
+        return $this->params['module']['vendor'] .'_' . $this->params['module']['module'];
+    }
+
+    public function getVendor()
+    {
+        return $this->params['module']['vendor'];
+    }
+
+    public function getModule()
+    {
+        return $this->params['module']['module'];
     }
 }

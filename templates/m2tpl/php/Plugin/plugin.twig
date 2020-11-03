@@ -1,0 +1,36 @@
+<?php
+{% if license|length>0 %}
+{{license}}
+{% endif %}
+
+declare(strict_types=1);
+
+namespace {{namespace}};
+
+class {{action_name}}
+{
+    /* demo
+    @doc https://devdocs.magento.com/guides/v2.4/extension-dev-guide/plugins.html
+
+	public function beforeSetName(\Magento\Catalog\Model\Product $subject, $name)
+	{
+		return ['(' . $name . ')'];
+	}
+
+    public function afterUpdateWebsites(\Magento\Catalog\Model\Product\Action $subject, $result, $productIds, $websiteIds)
+    {
+        return $result;
+    }
+
+    public function aroundSave(\My\Module\Model\MyUtility $subject, callable $proceed, SomeType $obj = null)
+    {
+      //do something
+    }
+
+    public function aroundSave(\My\Module\Model\MyUtility $subject, callable $proceed, ...$args)
+    {
+      //do something
+      $proceed(...$args);
+    }
+    */
+}

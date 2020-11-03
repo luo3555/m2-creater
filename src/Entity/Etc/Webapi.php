@@ -14,6 +14,7 @@ class Webapi extends EntityBase
 
     public function addRouter($route)
     {
+        $route['service'] = sprintf('%s\%s\Api\%s', $this->getVendor(), $this->getModule(), $route['service']);
         $this->xml[] = $this->fetch('xml/webapi/route.twig', $route);
         return $this;
     }

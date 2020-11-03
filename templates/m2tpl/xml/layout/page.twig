@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+{% if license %}
+<!--
+{{license}}
+-->
+{% endif %}
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+    <!--
+        <link src="{{module_name}}::js/your-script.js"/>
+        <link src="{{module_name}}::css/your-style.css"/>
+    -->
+    </head>
+    <body>
+    <referenceContainer name="content">
+{% if ui_component %}
+        <uiComponent name="{{ui_component_handle}}"/>
+{% else %}
+        <block class="Magento\Framework\View\Element\Text" name="content.text">
+            <action method="setText">
+                <argument translate="true" name="text" xsi:type="string"><![CDATA[<h1 class="page-heading">It Work!</h1>]]></argument>
+            </action>
+        </block>
+{% endif %}
+    </referenceContainer>
+    </body>
+</page>

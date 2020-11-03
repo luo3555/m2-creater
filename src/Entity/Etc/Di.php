@@ -17,6 +17,7 @@ class Di extends EntityBase
      */
     public function addPreference($preference, $area='')
     {
+        $preference['type'] = sprintf('%s\%s\Model\%s', $this->getVendor(), $this->getModule(), $preference['type']);
         $content = $this->fetch('xml/di/preference.twig', $preference);
         return $this->addDataToDi($content, $area);
     }
@@ -32,6 +33,7 @@ class Di extends EntityBase
      */
     public function addPlugin($plugin, $area='')
     {
+        $plugin['class'] = sprintf('%s\%s\Plugin\%s', $this->getVendor(), $this->getModule(), $plugin['class']);
         $content = $this->fetch('xml/di/plugin.twig', $plugin);
         return $this->addDataToDi($content, $area);
     }

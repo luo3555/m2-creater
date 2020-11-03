@@ -17,6 +17,7 @@ class ResetInterface extends EntityBase
         $webapi = $this->params['webapi_reset'];
 
         foreach ($webapi as $api) {
+            $api['interface'] = sprintf('%s\%s\Api\%s', $this->getVendor(), $this->getModule(), $api['interface']);
             // add namespace ext by interface name
             $_namespace = explode('\\', $api['interface']);
             $interfaceName = array_pop($_namespace);
@@ -35,9 +36,11 @@ class ResetInterface extends EntityBase
                 if (!empty($api['property'])) {
                     foreach ($api['property'] as $param) {
                         $interface->addConstant(\strtoupper($param['name']), \strtolower($param['name']));
+
+                        $return = isset($param['return']) ? $param['return'] : $param['type'];
     
                         $method = $interface->addMethod('get' . \ucfirst($param['name']));
-                        $method->addComment('Get ' . $param['name'])->addComment('@return ' . $param['return'])->setPublic();
+                        $method->addComment('Get ' . $param['name'])->addComment('@return ' . $return)->setPublic();
     
                         $method = $interface->addMethod('set' . \ucfirst($param['name']));
                         $method->addComment('Set ' . $param['name'])->addComment('@return $this')->setPublic()
@@ -45,7 +48,7 @@ class ResetInterface extends EntityBase
 
                         // model
                         $modelMethod = $class->addMethod('get' . \ucfirst($param['name']));
-                        $modelMethod->addComment('Get ' . $param['name'])->addComment('@return ' . $param['return'])->setPublic();
+                        $modelMethod->addComment('Get ' . $param['name'])->addComment('@return ' . $return)->setPublic();
                         $modelMethod->setBody(\sprintf('return $this->getData(self::%s);', \strtoupper($param['name'])));
 
                         $modelMethod = $class->addMethod('set' . \ucfirst($param['name']));
